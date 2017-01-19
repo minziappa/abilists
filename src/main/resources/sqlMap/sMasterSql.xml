@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.SMasterDao">
+
+	<select id="sltMRole" parameterType="map" 
+		resultType="com.abilists.bean.model.MRoleModel">
+		SELECT
+			mr_no,
+			mr_name,
+			mr_code,
+			mr_explain,
+			mr_responsibilities,
+			mr_works,
+			mr_skills,
+			mr_prefers,
+			ml_code,
+			mr_status,
+			mr_delete,
+			insert_time,
+			update_time
+		FROM
+			m_role
+		WHERE
+			mr_no = #{mrNo} AND
+			mr_delete='0'
+	</select>
+	<select id="sltMTech" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechModel">
+		SELECT
+			mt_no,
+			mt_skill,
+			mt_kind,
+			mt_name,
+			mt_version,
+			mt_explain,
+			mt_relation,
+			mt_status,
+			mt_trend,
+			mt_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech
+		WHERE
+			mt_no = #{mtNo} AND
+			mt_delete='0'
+	</select>
+	<select id="sltMTechDetail" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechDetailModel">
+		SELECT
+			mtd_no,
+			mt_no,
+		 	mt_kind,
+			mtd_level,
+			mtd_level_explain,
+			ml_code,
+			mtd_status,
+			mtd_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech_detail
+		WHERE
+			mtd_no = #{mtdNo} AND
+			mtd_delete='0'
+	</select>
+	<select id="sltMIndustry" parameterType="map" 
+		resultType="com.abilists.bean.model.MIndustryModel">
+		SELECT
+			mi_no,
+			mi_large_category,
+			mi_middle_category,
+			mi_code,
+			mi_explain,
+			ml_code,
+			mi_status,
+			mi_delete,
+			insert_time,
+			update_time
+		FROM
+			m_industry
+		WHERE
+			mi_no = #{miNo} AND
+			mi_delete='0'
+	</select>
+	<select id="sltMRoleList" parameterType="map" 
+		resultType="com.abilists.bean.model.MRoleModel">
+		SELECT
+			mr_no,
+			mr_name,
+			mr_code,
+			mr_explain,
+			mr_responsibilities,
+			mr_works,
+			mr_skills,
+			mr_prefers,
+			ml_code,
+			mr_status,
+			mr_delete,
+			insert_time,
+			update_time
+		FROM
+			m_role
+		WHERE
+			mr_delete='0'
+	    <if test="mlCode != null and mlCode != ''">
+	        AND ml_code = #{mlCode}
+	    </if> 
+		ORDER BY
+			mr_no DESC
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+	<select id="sltMTechList" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechModel">
+		SELECT
+			mt_no,
+			mt_skill,
+			mt_kind,
+			mt_name,
+			mt_version,
+			mt_explain,
+			mt_relation,
+			mt_status,
+			mt_trend,
+			mt_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech
+		WHERE
+			mt_delete='0'
+	    <if test="mtSkill != null and mtSkill != ''">
+			AND mt_skill = #{mtSkill}
+	    </if> 
+		ORDER BY 
+			mt_no DESC, mt_kind
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+	<select id="sltMTechDetailList" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechDetailModel">
+		SELECT
+			mtd_no,
+			mt_no,
+		 	mt_kind,
+			mtd_level,
+			mtd_level_explain,
+			ml_code,
+			mtd_status,
+			mtd_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech_detail
+		WHERE
+			mt_no = #{mtNo}
+	    <if test="mlCode != null and mlCode != ''">
+			AND ml_code = #{mlCode}
+	    </if>
+	    AND mtd_delete='0'
+		ORDER BY 
+			mt_no, mt_kind
+	</select>
+	<select id="sltMIndustryList" parameterType="map" 
+		resultType="com.abilists.bean.model.MIndustryModel">
+		SELECT
+			mi_no,
+			mi_large_category,
+			mi_middle_category,
+			mi_code,
+			mi_explain,
+			ml_code,
+			mi_status,
+			mi_delete,
+			insert_time,
+			update_time
+		FROM
+			m_industry
+		WHERE
+			mi_delete='0'
+	    <if test="mlCode != null">
+			AND ml_code = #{mlCode}
+	    </if> 
+		ORDER BY 
+			mi_no DESC
+	</select>
+
+	<select id="sltMRoleAll" parameterType="map" 
+		resultType="com.abilists.bean.model.MRoleModel">
+		SELECT
+			mr_no,
+			mr_name,
+			mr_code,
+			mr_explain,
+			mr_responsibilities,
+			mr_works,
+			mr_skills,
+			mr_prefers,
+			ml_code,
+			mr_status,
+			mr_delete,
+			insert_time,
+			update_time
+		FROM
+			m_role
+		WHERE
+			mr_delete='0'
+		ORDER BY 
+			ml_code, mr_no
+	</select>
+	<select id="sltMTechAll" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechModel">
+		SELECT
+			mt_no,
+			mt_skill,
+			mt_kind,
+			mt_name,
+			mt_version,
+			mt_explain,
+			mt_relation,
+			mt_status,
+			mt_trend,
+			mt_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech
+		WHERE
+			mt_delete='0'
+		ORDER BY 
+			mt_no, mt_skill, mt_kind
+	</select>
+	<select id="sltMTechDetailAll" parameterType="map" 
+		resultType="com.abilists.bean.model.MTechDetailModel">
+		SELECT
+			mtd_no,
+			mt_no,
+		 	mt_kind,
+			mtd_level,
+			mtd_level_explain,
+			ml_code,
+			mtd_status,
+			mtd_delete,
+			insert_time,
+			update_time
+		FROM
+			m_tech_detail
+		WHERE
+			mtd_delete='0'
+		ORDER BY 
+			mt_no, mtd_level
+	</select>
+	<select id="sltMIndustryAll" parameterType="map" 
+		resultType="com.abilists.bean.model.MIndustryModel">
+		SELECT
+			mi_no,
+			mi_large_category,
+			mi_middle_category,
+			mi_code,
+			mi_explain,
+			ml_code,
+			mi_status,
+			mi_delete,
+			insert_time,
+			update_time
+		FROM
+			m_industry
+		WHERE
+			mi_delete='0'
+		ORDER BY 
+			ml_code, mi_no
+	</select>
+	<select id="sltMLanguageAll" parameterType="map" 
+		resultType="com.abilists.bean.model.MLanguageModel">
+		SELECT
+			ml_no,
+			ml_code,
+			ml_name,
+			ml_english_name,
+			ml_status,
+			ml_delete,
+			insert_time,
+			update_time
+		FROM
+			m_language
+		WHERE
+			ml_delete='0'
+	</select>
+
+	<select id="sltMTechSum" parameterType="map" 
+		resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			m_tech
+		WHERE
+			mt_delete='0'
+	    <if test="mtSkill != null and mtSkill != ''">
+			AND mt_skill = #{mtSkill}
+	    </if> 
+	</select>
+	<select id="sltMTechDetailSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			m_tech_detail
+		WHERE
+			mtd_delete='0'
+	</select>
+	<select id="sltMRoleSum"  parameterType="map" 
+		resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			m_role
+		WHERE
+			mr_delete='0'
+	    <if test="mlCode != null and mlCode != ''">
+			AND ml_code = #{mlCode}
+	    </if> 
+	</select>
+	<select id="sltMIndustrySum" parameterType="map" 
+		resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			m_industry
+		WHERE
+			mi_delete='0'
+	    <if test="mlCode != null and mlCode != ''">
+			AND ml_code = #{mlCode}
+	    </if> 
+	</select>
+	<select id="sltMNotiSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			notification
+		WHERE
+			noti_delete='0'
+	</select>
+
+</mapper>

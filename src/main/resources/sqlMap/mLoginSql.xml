@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.MLoginDao">
+
+	<insert id="updateSequece" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+			<selectKey resultType="Long" keyProperty="id" order="AFTER">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
+	    UPDATE abilists_sequence SET 
+	        id=LAST_INSERT_ID(id+1) 
+	    WHERE 
+	        seq_name = #{seqName}
+	</insert>
+
+	<insert id="insertUserTemp" parameterType="map">
+		INSERT INTO user_temp (
+			user_temp_num,
+			user_temp_email,
+			user_temp_token,
+			user_temp_Status,
+			insert_date,
+			update_date
+		) VALUES (
+			#{userTempNum},
+			#{userTempEmail},
+			#{userTempToken},
+			#{userTempStatus},
+			now(),
+			now()
+		)
+	</insert>
+
+	<delete id="deleteUserTemp" parameterType="map">
+		DELETE FROM 
+			user_temp
+		WHERE 
+			user_temp_token = #{userTempToken}
+	</delete>
+
+</mapper>

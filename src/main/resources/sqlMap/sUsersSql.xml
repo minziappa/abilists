@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.SUsersDao">
+
+	<select id="sltUser" parameterType="map" 
+		resultType="com.abilists.bean.model.UsersModel">
+		SELECT
+			user_no,
+			user_id,
+			user_auth,
+			user_name,
+			user_sex,
+			user_email,
+			user_ages,
+			user_profile,
+			user_status,
+			user_delete,
+			insert_time,
+			update_time
+		FROM
+			users
+		WHERE
+			user_id = #{userId}
+	</select>
+
+	<select id="sltUserTech" parameterType="map" 
+		resultType="com.abilists.bean.model.UserTechModel">
+		SELECT
+			ut_no,
+			ut_skill,
+			ut_kind,
+			ut_level,
+			ut_detail,
+			ut_status,
+			ut_delete,
+			mt_no,
+			user_id,
+			insert_time,
+			update_time
+		FROM
+			user_tech
+		WHERE
+			user_id = #{userId} AND
+			ut_no = #{utNo}
+	</select>
+	<select id="sltUserTechList" parameterType="map" 
+		resultType="com.abilists.bean.model.UserTechModel">
+		SELECT
+			ut_no,
+			ut_skill,
+			ut_kind,
+			ut_level,
+			ut_detail,
+			ut_status,
+			ut_delete,
+			mt_no,
+			user_id,
+			insert_time,
+			update_time
+		FROM
+			user_tech
+		WHERE
+			ut_skill = #{utSkill} AND
+			user_id = #{userId} AND
+			ut_delete='0'
+	</select>
+
+	<select id="sltUsersList" 
+		resultType="com.abilists.bean.model.UsersModel">
+		SELECT
+			user_no,
+			user_id,
+			user_auth,
+			user_name,
+			user_sex,
+			user_email,
+			user_ages,
+			user_profile,
+			user_status,
+			user_delete,
+			insert_time,
+			update_time
+		FROM
+			users
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="sltUsersSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(user_no) as cnt
+		FROM
+			users
+	</select>
+
+	<select id="sltUserProjects" parameterType="map"
+		resultType="com.abilists.bean.model.UserProjectsModel">
+		SELECT
+			up_no,
+			up_name,
+			up_industrial,
+			up_explain,
+			up_members,
+			up_role,
+			up_status,
+			up_delete,
+			user_id,
+			mr_name,
+			insert_time,
+			update_time
+		FROM
+			user_projects
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} And
+		</if>
+			up_no = #{upNo}
+	</select>
+
+	<select id="srhUsersList" 
+		resultType="com.abilists.bean.model.UsersModel">
+		SELECT
+			user_no,
+			user_id,
+			user_auth,
+			user_name,
+			user_sex,
+			user_email,
+			user_ages,
+			user_profile,
+			user_status,
+			user_delete,
+			insert_time,
+			update_time
+		FROM
+			users
+		WHERE
+			user_id like '%${userId}%'
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="searchUserProjectsList" parameterType="map"
+		resultType="com.abilists.bean.model.UserProjectsModel">
+		SELECT
+			up_no,
+			up_name,
+			up_industrial,
+			up_explain,
+			up_members,
+			up_role,
+			up_status,
+			up_delete,
+			user_id,
+			mr_name,
+			insert_time,
+			update_time
+		FROM
+			user_projects
+		WHERE
+			user_id = #{userId} 
+			AND up_delete = '0'
+			<if test="upName != null">
+			AND up_name LIKE '%${upName}%'
+			</if> 
+	</select>
+
+	<select id="sltUserProjectsList" parameterType="map"
+		resultType="com.abilists.bean.model.UserProjectsModel">
+		SELECT
+			*
+		FROM
+			user_projects
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			up_delete = '0'
+		ORDER BY 
+			up_no DESC
+		<if test="nowPage != null">
+		LIMIT
+			#{nowPage}, #{row}
+		</if> 
+	</select>
+
+	<select id="sltUserTask" parameterType="map"
+		resultType="com.abilists.bean.model.UserTaskModel">
+		SELECT
+			*
+		FROM
+			user_task
+		WHERE
+		<if test="utkNo != null and utkNo !=''">
+			utk_no = #{utkNo} AND
+		</if>
+			utk_work_day = #{utkWorkDay} AND
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			utk_delete = '0'
+	</select>
+
+	<select id="sltUserTaskList" parameterType="map"
+		resultType="com.abilists.bean.model.UserTaskModel">
+		SELECT
+			*
+		FROM
+			user_task
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			utk_delete = '0'
+		ORDER BY 
+			utk_no DESC
+		<if test="nowPage != null">
+		LIMIT
+			#{nowPage}, #{row}
+		</if>
+	</select>
+
+	<select id="sltUserProjectsSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			user_projects
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			up_delete = '0'
+	</select>
+
+	<select id="sltUserTaskSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			user_task
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			utk_delete = '0'
+	</select>
+
+	<select id="sltUserProjectTech" parameterType="map"
+		resultType="com.abilists.bean.model.UserProjectTechModel">
+		SELECT
+			upt_no,
+			upt_kind,
+			upt_level,
+			upt_detail,
+			upt_status,
+			upt_delete,
+			mt_no,
+			up_no,
+			user_id,
+			insert_time,
+			update_time
+		FROM
+			user_projects_tech
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			upt_no = #{uptNo}
+	</select>
+	<select id="sltUserProjectTechList" parameterType="map"
+		resultType="com.abilists.bean.model.UserProjectTechModel">
+		SELECT
+			upt_no,
+			upt_kind,
+			upt_level,
+			upt_detail,
+			upt_status,
+			upt_delete,
+			mt_no,
+			up_no,
+			user_id,
+			insert_time,
+			update_time
+		FROM
+			user_projects_tech
+		WHERE
+		<if test="upNo != null">
+			up_no = #{upNo} AND
+		</if>
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			upt_delete = '0'
+		ORDER BY 
+			upt_no DESC
+		<if test="nowPage != null">
+		LIMIT
+			#{nowPage}, #{row}
+		</if> 
+	</select>
+	<select id="sltUserProjectTechSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			user_projects_tech
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			upt_delete = '0'
+	</select>
+
+</mapper>

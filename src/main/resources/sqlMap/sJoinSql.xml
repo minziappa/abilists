@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.SJoinDao">
+
+<!-- not used 
+	<resultMap id="utMtResultMap" type="com.abilists.bean.model.join.MTechJoinUserTechModel">
+		<id property="mtNo" column="mt_no"/>
+		<result property="mtSkill" column="mt_skill"/>
+		<result property="mtName" column="mt_name"/>
+		<collection property="systemMapList" javaType="java.util.ArrayList" resultMap="subUtMapList"/>
+	</resultMap>
+
+	<resultMap id="subUtMapList" type="java.util.HashMap">
+		<id property="utNo" column="ut_no"/>
+		<result property="utKind" column="ut_kind"/>
+		<result property="utLevel" column="ut_level"/>
+	</resultMap>
+ -->
+
+	<select id="sltMTechJoinUserTechList" parameterType="map" 
+		resultType="com.abilists.bean.model.join.MTechJoinUserTechModel">
+		SELECT 
+			mt.mt_no,
+			mt.mt_skill,
+			mt.mt_name,
+			ut.ut_kind,
+			ut.ut_level
+		FROM 
+			user_tech ut
+		INNER JOIN 
+			m_tech mt 
+			ON 
+			ut.mt_no = mt.mt_no
+		WHERE
+			ut.ut_delete = '0' AND
+			ut.user_id = #{userId}
+	</select>
+
+	<select id="sltMIndustryJoinUserProjectsList" parameterType="map" 
+		resultType="com.abilists.bean.model.join.MIndustryJoinUserProjectsModel">
+		SELECT 
+			mi.mi_large_category,
+			count(mi.mi_code) as cnt,
+			mi.ml_code
+		FROM 
+			user_projects up
+		INNER JOIN 
+			m_industry mi 
+			ON 
+			up.up_industrial = mi.mi_code
+		WHERE 
+			up.user_id = #{userId} AND
+			mi.ml_code = #{mlCode}
+		GROUP BY
+			mi.mi_large_category
+	</select>
+
+	<select id="sltUserProjectsJoinTechList" parameterType="map" 
+		resultType="com.abilists.bean.model.join.UserProjectsJoinTechModel">
+		SELECT 
+			sum(upt.upt_level) as uptLevel,
+			up.up_no,
+			up.up_name,
+			up.insert_time
+		FROM 
+			user_projects up
+		INNER JOIN 
+			user_projects_tech upt 
+			ON 
+			up.up_no = upt.up_no
+		WHERE 
+			upt.user_id = #{userId}
+		GROUP BY
+			up.up_no
+	</select>
+
+<!-- 
+	<select id="sltMTechJoinUserTechList" parameterType="map" 
+		resultType="com.abilists.bean.model.join.MTechJoinUserTechModel">
+		SELECT 
+			mt.mt_name,
+			ut.ut_kind,
+			ut.ut_level
+		FROM 
+			user_tech ut
+		INNER JOIN 
+			m_tech mt 
+			ON 
+			ut.mt_no = mt.mt_no
+		WHERE
+			user_id = #{userId} AND
+			ut.ut_skill = #{lang}
+	</select>
+ -->
+
+</mapper>

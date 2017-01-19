@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.MNotiDao">
+
+	<insert id="insertNotification" parameterType="map">
+		INSERT INTO notification (
+			noti_no,
+			noti_title,
+			noti_contents,
+			noti_kind,
+			noti_start,
+			noti_end,
+			noti_status,
+			noti_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{notiNo},
+			#{notiTitle},
+			#{notiContents},
+			#{notiKind},
+			#{notiStart},
+			#{notiEnd},
+			'0',
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="insertUserNoti" parameterType="map">
+		INSERT INTO users_noti (
+			user_id,
+			noti_no,
+			un_status,
+			un_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{userId},
+			#{notiNo},
+			'0',
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+
+	<update id="updateNotification" parameterType="map">
+		UPDATE 
+			notification
+		SET
+			noti_title = #{notiTitle},
+			noti_contents = #{notiContents},
+			noti_kind = #{notiKind},
+			noti_start = #{notiStart},
+			noti_end = #{notiEnd},
+			noti_status = #{notiStatus},
+			update_time = now()
+		WHERE
+			noti_no = #{notiNo}
+	</update>
+
+	<update id="deleteNotification" parameterType="map">
+		UPDATE 
+			notification
+		SET
+			noti_delete='1'
+		WHERE 
+			noti_no = #{notiNo}
+	</update>
+
+</mapper>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.MAdminDao">
+
+
+	<insert id="insertAdmin" parameterType="map">
+		INSERT INTO admin (
+			admin_id,
+			admin_name,
+			admin_email,
+			admin_auth,
+			admin_status,
+			admin_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{adminId},
+			#{adminName},
+			#{adminEmail},
+			#{adminAuth},
+			#{adminStatus},
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="insertNotification" parameterType="map">
+		INSERT INTO notification (
+			noti_title,
+			noti_contents,
+			noti_kind,
+			noti_start,
+			noti_end,
+			noti_status,
+			noti_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{amTitle},
+			#{amWeight},
+			#{amExplain},
+			#{amStatus},
+			#{amDelete},
+			'0',
+			#{mrNo},
+			now(),
+			now()
+		)
+	</insert>
+
+	<update id="udtUsers" parameterType="map">
+		UPDATE 
+			users
+		SET
+			user_auth = #{userAuth},
+			user_status = #{userStatus},
+			update_time = now()
+		WHERE
+			user_id = #{userId}
+	</update>
+
+	<update id="updateAdmin" parameterType="map">
+		UPDATE 
+			admin
+		SET
+			admin_name = #{adminName},
+			admin_email = #{adminEmail},
+			admin_auth = #{adminAuth},
+			admin_status = #{adminStatus},
+			mr_no = #{mrNo},
+			update_time = now()
+		WHERE
+			admin_id = #{adminId}
+	</update>
+
+	<update id="updateAdminMt" parameterType="map">
+		UPDATE 
+			admin_mt
+		SET
+			admin_name = #{adminName},
+			admin_email = #{adminEmail},
+			admin_auth = #{adminAuth},
+			admin_status = #{adminStatus},
+			mr_no = #{mrNo},
+			update_time = now()
+		WHERE
+			am_no = #{amNo}
+	</update>
+
+	<update id="deleteAdmin" parameterType="map">
+		UPDATE 
+			admin
+		SET
+			user_delete='1'
+		WHERE 
+			admin_id = #{adminId}
+	</update>
+
+	<update id="deleteAdminMt" parameterType="map">
+		UPDATE 
+			admin_mt
+		SET
+			am_delete='1'
+		WHERE 
+			am_no = #{amNo}
+	</update>
+
+</mapper>

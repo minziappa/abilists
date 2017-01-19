@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.MUsersDao">
+
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO users (
+			user_id,
+			user_pwd,
+			user_auth,
+			user_name,
+			user_sex,
+			user_email,
+			user_ages,
+			user_profile,
+			user_status,
+			user_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{userId},
+			#{userPwd},
+			#{userAuth},
+			#{userName},
+			#{userSex},
+			#{userEmail},
+			#{userAges},
+			#{userProfile},
+			#{userStatus},
+			#{userDelete},
+			now(),
+			now()
+		)
+	</insert>
+	<insert id="insertUserTech" parameterType="map">
+		INSERT INTO user_tech (
+			ut_skill,
+			ut_kind,
+			ut_level,
+			ut_detail,
+			ut_status,
+			ut_delete,
+			mt_no,
+			user_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{utSkill},
+			#{utKind},
+			#{utLevel},
+			#{utDetail},
+			'0',
+			'0',
+			#{mtNo},
+			#{userId},
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="insertUserProjects" parameterType="map">
+		INSERT INTO user_projects (
+			up_name,
+			up_industrial,
+			up_explain,
+			up_members,
+			up_role,
+			up_status,
+			up_delete,
+			user_id,
+			mr_name,
+			insert_time,
+			update_time
+		) VALUES (
+			#{upName},
+			#{upIndustrial},
+			#{upExplain},
+			#{upMembers},
+			#{upRole},
+			'0',
+			'0',
+			#{userId},
+			#{mrName},
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="istUserTask" parameterType="map">
+		INSERT INTO user_task (
+			utk_work_day,
+			utk_task,
+			utk_status,
+			utk_delete,
+			user_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{utkWorkDay},
+			#{utkTask},
+			'0',
+			'0',
+			#{userId},
+			now(),
+			now()
+		)
+	</insert>
+
+	<insert id="insertUserProjectTech" parameterType="map">
+		INSERT INTO user_projects_tech (
+			upt_kind,
+			upt_level,
+			upt_detail,
+			upt_status,
+			upt_delete,
+			mt_no,
+			up_no,
+			user_id,
+			insert_time,
+			update_time
+		) VALUES (
+			#{uptKind},
+			#{uptLevel},
+			#{uptDetail},
+			'0',
+			'0',
+			#{mtNo},
+			#{upNo},
+			#{userId},
+			now(),
+			now()
+		)
+	</insert>
+
+	<update id="updateUser" parameterType="map">
+		UPDATE 
+			users
+		SET
+			user_name = #{userName},
+			user_sex = #{userSex},
+			user_ages = #{userAges},
+			user_profile = #{userProfile},
+			user_status = #{userStatus},
+			update_time = now()
+		WHERE
+			user_id = #{userId}
+	</update>
+
+	<update id="updateUserTech" parameterType="map">
+		UPDATE 
+			user_tech
+		SET
+			ut_kind = #{utKind},
+			ut_level = #{utLevel},
+			ut_detail = #{utDetail},
+			ut_status = #{utStatus},
+			mt_no = #{mtNo},
+			user_id = #{userId},
+			update_time = now()
+		WHERE
+			user_id = #{userId} And
+			ut_no = #{utNo}
+	</update>
+
+	<update id="updateUserProjects" parameterType="map">
+		UPDATE 
+			user_projects
+		SET
+			up_name = #{upName},
+			up_industrial = #{upIndustrial},
+			<if test="upExplain != null">
+			up_explain = #{upExplain},
+			</if>
+			<if test="upMembers != null">
+			up_members = #{upMembers},
+			</if>
+			up_role = #{upRole},
+			up_status = #{upStatus},
+		<if test="userId != null">
+			user_id = #{userId},
+		</if>
+			mr_name = #{mrName},
+			update_time = now()
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} And
+		</if>
+			up_no = #{upNo}
+	</update>
+
+	<update id="updateUserProjectTech" parameterType="map">
+		UPDATE 
+			user_projects_tech
+		SET
+			upt_kind = #{uptKind},
+			upt_level = #{uptLevel},
+			upt_detail = #{uptDetail},
+			upt_status = #{uptStatus},
+			mt_no = #{mtNo},
+		<if test="userId != null">
+			user_id = #{userId},
+		</if>
+			update_time = now()
+		WHERE
+		<if test="userId != null">
+			user_id = #{userId} And
+		</if>
+			upt_no = #{uptNo}
+	</update>
+
+	<update id="udtUserTask" parameterType="map">
+		UPDATE 
+			user_task
+		SET
+			utk_work_day = #{utkWorkDay},
+			utk_task = #{utkTask},
+			update_time = now()
+		WHERE
+		<if test="utkNo != null and utkNo !=''">
+			utk_no = #{utkNo} AND
+		</if>
+		<if test="utkWorkDay != null">
+			utk_work_day = #{utkWorkDay} AND
+		</if>
+			user_id = #{userId}
+	</update>
+
+	<update id="updatePwd" parameterType="map">
+		UPDATE 
+			users
+		SET
+			user_pwd = #{userPwd},
+			update_time = now()
+		WHERE
+		<choose>
+		    <when test="userId != null">
+				user_id = #{userId}
+		    </when>
+		    <when test="userEmail != null">
+				user_email = #{userEmail}
+		    </when>
+		    <otherwise>
+				user_id = #{userId}
+		    </otherwise>
+		</choose>
+
+	</update>
+
+	<update id="updateEmail" parameterType="map">
+		UPDATE 
+			users
+		SET
+			user_email = #{userEmail},
+			update_time = now()
+		WHERE
+			user_id = #{userId}
+	</update>
+
+	<update id="deleteUser" parameterType="map">
+		UPDATE 
+			users
+		SET
+			user_delete='1'
+		WHERE 
+			user_id = #{userId}
+	</update>
+
+	<update id="deleteUserProjects" parameterType="map">
+		UPDATE 
+			user_projects
+		SET
+			up_delete='1'
+		WHERE 
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			up_no = #{upNo}
+	</update>
+
+	<update id="deleteUserProjectTech" parameterType="map">
+		UPDATE 
+			user_projects_tech
+		SET
+			upt_delete='1'
+		WHERE 
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			upt_no = #{uptNo}
+	</update>
+
+	<update id="deleteUserProjectTechByUp" parameterType="map">
+		UPDATE 
+			user_projects_tech
+		SET
+			upt_delete='1'
+		WHERE 
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			up_no = #{upNo}
+	</update>
+
+	<update id="dltUserTask" parameterType="map">
+		UPDATE 
+			user_task
+		SET
+			utk_delete='1'
+		WHERE 
+		<if test="userId != null">
+			user_id = #{userId} AND
+		</if>
+			utk_no = #{utkNo}
+	</update>
+
+	<delete id="deleteUserTech" parameterType="map">
+		DELETE FROM 
+			user_tech
+		WHERE 
+			ut_skill = #{utSkill} AND
+			user_id = #{userId}
+	</delete>
+
+</mapper>

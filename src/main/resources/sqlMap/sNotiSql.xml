@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.SNotiDao">
+
+	<select id="sltNotification" parameterType="map" 
+		resultType="com.abilists.bean.model.NotificationModel">
+		SELECT
+			noti_no,
+			noti_title,
+			noti_contents,
+			noti_kind,
+			noti_start,
+			noti_end,
+			noti_status,
+			noti_delete,
+			insert_time,
+			update_time
+		FROM
+			notification
+		WHERE
+			noti_no = #{notiNo}
+	</select>
+
+	<select id="sltNotificationList" parameterType="map" 
+		resultType="com.abilists.bean.model.NotificationModel">
+		SELECT
+			noti_no,
+			noti_title,
+			noti_contents,
+			noti_kind,
+			noti_start,
+			noti_end,
+			noti_status,
+			noti_delete,
+			insert_time,
+			update_time
+		FROM
+			notification
+		WHERE
+			noti_delete='0'
+		ORDER BY 
+			noti_no DESC, noti_start
+		LIMIT
+			#{nowPage}, #{row}
+	</select>
+
+	<select id="sltNotificationSum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(*) as cnt
+		FROM
+			notification
+		WHERE
+			noti_delete = '0';
+	</select>
+
+	<select id="sltUserNoti" parameterType="map" 
+		resultType="com.abilists.bean.model.join.NotificationJoinUserNotiModel">
+		SELECT 
+			t2.noti_no as notiNo,
+			t2.noti_title as notiTitle,
+			t2.update_time as updateTime
+		FROM 
+			users_noti t1 
+			RIGHT JOIN 
+			notification t2 
+				ON t1.noti_no=t2.noti_no 
+		WHERE 
+			t1.user_id IS NULL AND
+			t2.noti_no = #{notiNo} AND
+			t2.noti_delete = '0'
+		ORDER BY 
+			t2.noti_no DESC
+	</select>
+
+	<select id="sltUserNotiList" parameterType="map" 
+		resultType="com.abilists.bean.model.join.NotificationJoinUserNotiModel">
+		SELECT 
+			t1.user_id as userId,
+			t2.noti_no as notiNo,
+			t2.noti_title as notiTitle,
+			t2.update_time as updateTime
+		FROM 
+			(SELECT 
+				user_id, noti_no 
+			 FROM 
+			 	users_noti 
+			 WHERE 
+			 	user_id = #{userId}) t1
+			RIGHT JOIN 
+			notification t2 
+				ON t1.noti_no=t2.noti_no 
+		WHERE 
+			t1.user_id IS NULL AND
+			t2.noti_delete = '0'
+		ORDER BY 
+			t2.noti_no DESC
+	</select>
+
+	<select id="sltUserNotiSum" resultType="java.lang.Integer">
+		SELECT 
+			count(*) as cnt 
+		FROM 
+			(SELECT 
+				user_id, noti_no 
+			 FROM 
+			 	users_noti 
+			 WHERE 
+			 	user_id = #{userId}) t1
+			RIGHT JOIN 
+			notification t2 
+				ON t1.noti_no=t2.noti_no 
+		WHERE 
+			t1.user_id IS NULL AND
+			t2.noti_delete = '0'
+		ORDER BY 
+			t2.noti_no DESC
+	</select>
+
+</mapper>

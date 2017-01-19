@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.MMasterDao">
+
+	<insert id="insertMRole" parameterType="map">
+		INSERT INTO m_role (
+		 	mr_name,
+		 	mr_code,
+			mr_explain,
+			mr_responsibilities,
+			mr_works,
+			mr_skills,
+			mr_prefers,
+			ml_code,
+			mr_status,
+			mr_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{mrName},
+			#{mrCode},
+			#{mrExplain},
+			#{mrResponsibilities},
+			#{mrWorks},
+			#{mrSkills},
+			#{mrPrefers},
+			#{mlCode},
+			'0',
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+	<insert id="insertMTech" parameterType="map">
+		INSERT INTO m_tech (
+			mt_skill,
+		 	mt_kind,
+			mt_name,
+			mt_version,
+			mt_explain,
+			mt_relation,
+			mt_status,
+			mt_trend,
+			mt_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{mtSkill},
+			#{mtKind},
+			#{mtName},
+			#{mtVersion},
+			#{mtExplain},
+			#{mtRelation},
+			'0',
+			#{mtTrend},
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+	<insert id="insertMTechDetail" parameterType="map">
+		INSERT INTO m_tech_detail (
+			mt_no,
+		 	mt_kind,
+			mtd_level,
+			mtd_level_explain,
+			ml_code,
+			mtd_status,
+			mtd_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{mtNo},
+			#{mtKind},
+			#{mtdLevel},
+			#{mtdLevelExplain},
+			#{mlCode},
+			'0',
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+	<insert id="insertMIndustry" parameterType="map">
+		INSERT INTO m_industry (
+			mi_large_category,
+			mi_middle_category,
+			mi_code,
+			mi_explain,
+			ml_code,
+			mi_status,
+			mi_delete,
+			insert_time,
+			update_time
+		) VALUES (
+			#{miLargeCategory},
+			#{miMiddleCategory},
+			#{miCode},
+			#{miExplain},
+			#{mlCode},
+			'0',
+			'0',
+			now(),
+			now()
+		)
+	</insert>
+	<update id="updateMRole" parameterType="map">
+		UPDATE 
+			m_role
+		SET
+			mr_name = #{mrName},
+			mr_code = #{mrCode},
+			mr_explain = #{mrExplain},
+			mr_responsibilities = #{mrResponsibilities},
+			mr_works = #{mrWorks},
+			mr_skills = #{mrSkills},
+			mr_prefers = #{mrPrefers},
+			ml_code = #{mlCode},
+			mr_status = #{mrStatus},
+			insert_time = now(),
+			update_time = now()
+		WHERE
+			mr_no = #{mrNo}
+	</update>
+
+	<update id="updateMTech" parameterType="map">
+		UPDATE 
+			m_tech
+		SET
+			mt_skill = #{mtSkill},
+			mt_kind = #{mtKind},
+			mt_name = #{mtName},
+			mt_version = #{mtVersion},
+			mt_explain = #{mtExplain},
+			mt_relation = #{mtRelation},
+			mt_trend = #{mtTrend},
+			mt_status = #{mtStatus},
+			insert_time = now(),
+			update_time = now()
+		WHERE
+			mt_no = #{mtNo}
+	</update>
+	<update id="updateMTechDetail" parameterType="map">
+		UPDATE 
+			m_tech_detail
+		SET
+			mt_no = #{mtNo},
+		 	mt_kind = #{mtKind},
+			mtd_level = #{mtdLevel},
+			mtd_level_explain = #{mtdLevelExplain},
+			ml_code = #{mlCode},
+			mtd_status = #{mtdStatus},
+			insert_time = now(),
+			update_time = now()
+		WHERE
+			mtd_no = #{mtdNo}
+	</update>
+	<update id="updateMIndustry" parameterType="map">
+		UPDATE 
+			m_industry
+		SET
+			mi_large_category = #{miLargeCategory},
+			mi_middle_category = #{miMiddleCategory},
+			mi_code = #{miCode},
+			mi_explain = #{miExplain},
+			ml_code = #{mlCode},
+			mi_status = #{miStatus},
+			update_time = now()
+		WHERE
+			mi_no = #{miNo}
+	</update>
+
+	<update id="deleteMRole" parameterType="map">
+		UPDATE 
+			m_role
+		SET
+			mr_delete='1'
+		WHERE 
+			mr_no = #{mrNo}
+	</update>
+	<update id="deleteMTech" parameterType="map">
+		UPDATE 
+			m_tech
+		SET
+			mt_delete='1'
+		WHERE 
+			mt_no = #{mtNo}
+	</update>
+	<update id="deleteMTechDetail" parameterType="map">
+		UPDATE 
+			m_tech_detail
+		SET
+			mtd_delete='1'
+		WHERE 
+			mtd_no = #{mtdNo}
+	</update>
+	<update id="deleteMIndustry" parameterType="map">
+		UPDATE 
+			m_industry
+		SET
+			mi_delete='1'
+		WHERE 
+			mi_no = #{miNo}
+	</update>
+</mapper>

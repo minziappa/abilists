@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.abilists.dao.SSumDao">
+
+	<select id="sltUserProjectsSumByYear"  parameterType="map"
+		resultType="com.abilists.bean.model.sum.UserProjectsSumByYearModel">
+		SELECT 
+			count(up_no) as cnt, 
+			EXTRACT(YEAR FROM insert_time) as year 
+		FROM 
+			user_projects 
+		WHERE
+			user_id = #{userId}
+		GROUP BY 
+			year;
+	</select>
+
+</mapper>
