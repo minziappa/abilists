@@ -552,9 +552,9 @@ function changeSelectInAjax(mTechDetailKeys) {
 	}
 
 	// Set the explain to the tech
+	var mTechDetail = new Option('<@spring.message "tech.select.default.tech"/>', '0');
+	uptLevelInput.options.add(mTechDetail);
 	if (mTechDetailKeys) {
-		var mTechDetail = new Option('<@spring.message "tech.select.default.tech"/>', '0');
-		uptLevelInput.options.add(mTechDetail);
 		for (i = 0; i < mTechDetailKeys.length; i++) {
 			if(mTechDetailKeys[i].mlCode == "${lang?if_exists}") {
 				mTechDetail = new Option(mTechDetailKeys[i].mtdLevelExplain, mTechDetailKeys[i].mtdLevel);
