@@ -17,7 +17,7 @@
 			user_temp
 		WHERE
 			user_temp_token = #{userTempToken}
-			AND DATE_ADD(insert_date,INTERVAL 1 DAY) <![CDATA[>=]]> now()
+			AND TIMESTAMPADD(DAY, 1, insert_date) <![CDATA[>=]]> now()
 	</select>
 
 	<select id="sltUserPwd" parameterType="map" resultType="java.lang.String">

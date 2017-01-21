@@ -286,7 +286,7 @@ public class LoginAbilistsController extends AbstractBaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = {"confirmSingup"})
-	public String confirmSingup(@RequestParam("token1") String ntoken, ModelMap model) throws Exception {
+	public String confirmSingup(@RequestParam("ntoken") String ntoken, ModelMap model) throws Exception {
 
 		// slt a user from temp table after validating the token.
 		UserTemp userTemp = loginService.sltUserTemp(ntoken);
@@ -296,12 +296,14 @@ public class LoginAbilistsController extends AbstractBaseController {
 			return "errors/error";	
 		}
 
-		CompleteConfirmPara completeConfirmPara = new CompleteConfirmPara();
-		completeConfirmPara.setToken(ntoken);
-		if(loginService.completeRegister(completeConfirmPara)) {
-			logger.error("Complete to register error - token1=" + ntoken);
-			return "errors/error";	
-		}
+//		// TODO : Register for complete from your email address.
+//		CompleteConfirmPara completeConfirmPara = new CompleteConfirmPara();
+//		completeConfirmPara.setNtoken(ntoken);
+//		logger.info("ntoken >>> " + ntoken);
+//		if(loginService.completeRegister(completeConfirmPara)) {
+//			logger.error("Complete to register error - token1=" + ntoken);
+//			return "errors/error";	
+//		}
 
 		return "redirect:/abilists";
 	}

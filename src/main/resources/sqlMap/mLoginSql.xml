@@ -8,7 +8,9 @@
 			<selectKey resultType="Long" keyProperty="id" order="AFTER">
 				SELECT LAST_INSERT_ID()
 			</selectKey>
-	    UPDATE abilists_sequence SET 
+	    UPDATE 
+	    	abilists_sequence 
+	    SET 
 	        id=LAST_INSERT_ID(id+1) 
 	    WHERE 
 	        seq_name = #{seqName}
