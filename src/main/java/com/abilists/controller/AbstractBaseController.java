@@ -46,7 +46,7 @@ public abstract class AbstractBaseController {
 	final Logger logger = LoggerFactory.getLogger(AbstractBaseController.class);
 
 	@Autowired
-	MessageSource message;
+	public MessageSource message;
 
 	private String getFileName(String fileName, String extend) {
 
@@ -166,15 +166,24 @@ public abstract class AbstractBaseController {
 		File file = new File(path + fullFileName);
 		logger.info("saving path = " + file.getPath());
 
-		OutputStream os = new FileOutputStream(file);
-        InputStream in = new ByteArrayInputStream(byteOut);
-        int n = -1;
-        while((n = in.read(byteOut)) > 0) {
-        	os.write(byteOut, 0, n);
-        }
-        in.close();
-        os.flush();
-        os.close();
+		OutputStream os = null;
+		InputStream  in = null;
+		try {
+			os = new FileOutputStream(file);
+	        in = new ByteArrayInputStream(byteOut);
+	        int n = -1;
+	        while((n = in.read(byteOut)) > 0) {
+	        	os.write(byteOut, 0, n);
+	        }
+		} catch (IOException e) {
+			logger.error("You have to make the path likt this=" + file.getPath(), e);
+			throw e;
+		} finally {
+	        in.close();
+	        os.flush();
+	        os.close();			
+		}
+
 	}
 
 	public void handleValidator(List<ObjectError> errorList) throws IOException {

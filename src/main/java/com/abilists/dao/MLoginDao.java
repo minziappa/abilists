@@ -10,7 +10,6 @@ public interface MLoginDao {
 
 	public int insertUserTemp(Map<String, Object> map) throws SQLException;
 	public int deleteUserTemp(Map<String, Object> map) throws SQLException;
-	public long updateSequece(Map<String, Object> map) throws SQLException;
 	public int updatePwd(Map<String, Object> map) throws SQLException;
 
 }

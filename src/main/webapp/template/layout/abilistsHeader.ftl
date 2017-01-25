@@ -29,6 +29,8 @@
 	<!-- Custom styles for this template -->
 	<link href="/static/lib/custom-bootstrap/css/custom-bootstrap.css" rel="stylesheet">
     <link href="/static/css/abilists.css" rel="stylesheet">
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link href="/static/css/cus_breadcrumb.css" rel="stylesheet">
     <link href="/static/css/title.css" rel="stylesheet">
 
 	</head>

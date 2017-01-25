@@ -150,7 +150,7 @@ war {
 task deployWar << {
 	copy {
 		from 'build/libs/ROOT.war'
-		into '/usr/local/tomcat/webapps'
+		into '/home/joonk/Public/release'
 		include '**/*.war'
 	}
 }

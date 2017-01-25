@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.abilists.bean.SlaveDbMappingBean;
 import com.abilists.common.bean.CommonPara;
-import com.abilists.dao.MLoginDao;
+import com.abilists.dao.MSequenceDao;
 
 import io.paging.Paging;
 import io.paging.bean.PagingBean;
@@ -59,7 +59,7 @@ public abstract class AbstractService {
 		map.put("seqName", seqName);
 		try {
 			sqlSessionSlaveFactory.setDataSource(getDispersionDb());
-			mAbilistsDao.getMapper(MLoginDao.class).updateSequece(map);
+			mAbilistsDao.getMapper(MSequenceDao.class).updateSequece(map);
 		} catch (Exception e) {
 			logger.error("Exception error - updateSequece", e);
 			throw e;

@@ -14,6 +14,7 @@
  	</settings>
 
 	<mappers>
+		<mapper resource="sqlMap/mSequenceSql.xml" />
 		<mapper resource="sqlMap/mAdminSql.xml" />
 		<mapper resource="sqlMap/mLoginSql.xml" />
 		<mapper resource="sqlMap/mMasterSql.xml" />

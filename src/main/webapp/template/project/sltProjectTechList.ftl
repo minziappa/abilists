@@ -165,9 +165,11 @@ var mtechList = {};
 						<#if commonBean??>
 						<#if commonBean.getMtechMap("skills")?has_content>
 							<#list commonBean.getMtechMap("skills")?keys as key>
-								<#list commonBean.getMtechMap("skills")[key] as tech>
+								<#if commonBean.getMtechMap("skills")[key]??>
+								<#list commonBean.getMtechMap("skills")[key] as tech>									
 									<option value="${tech.mtNo}">${tech.mtName?if_exists}</option>
 								</#list>
+								</#if>
 							</#list>
 						</#if>
 						</#if>
@@ -179,11 +181,13 @@ var mtechList = {};
 						<#if commonBean??>
 						<#if commonBean.mTechDetailMap?has_content>
 							<#list commonBean.mTechDetailMap?keys as key>
-								<#list commonBean.mTechDetailMap[key] as techDetail>
-								<#if techDetail.mlCode == "${lang?if_exists}">
-								<option value="${techDetail.mtdLevel?string?if_exists}">${techDetail.mtdLevelExplain?if_exists}</option>
+								<#if commonBean.mTechDetailMap[key]??>
+									<#list commonBean.mTechDetailMap[key] as techDetail>
+									<#if techDetail.mlCode == "${lang?if_exists}">
+									<option value="${techDetail.mtdLevel?string?if_exists}">${techDetail.mtdLevelExplain?if_exists}</option>
+									</#if>
+									</#list>
 								</#if>
-								</#list>
 							</#list>
 						</#if>
 						</#if>
