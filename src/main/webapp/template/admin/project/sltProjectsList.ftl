@@ -202,7 +202,7 @@ function validateUpdateForm(tableName) {
 	<div class="col-md-6">
 		<h3>
 			<ol class="breadcrumb-std">
-			  <li><a href="/admin"><@spring.message "dashboard.title.home"/></a></li>
+			  <li><a href="/admin/"><@spring.message "dashboard.title.home"/></a></li>
 			  <li class="active"><@spring.message "admin.menu.projects"/></li>
 			</ol>
 		</h3>
