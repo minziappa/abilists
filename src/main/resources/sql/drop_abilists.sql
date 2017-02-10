@@ -1,0 +1,16 @@
+DROP TABLE abilists.admin;
+DROP TABLE abilists.admin_mt;
+DROP TABLE abilists.notification;
+DROP TABLE abilists.abilists_sequence;
+DROP TABLE abilists.m_language;
+DROP TABLE abilists.m_industry;
+DROP TABLE abilists.m_role;
+DROP TABLE abilists.m_tech;
+DROP TABLE abilists.m_tech_detail;
+DROP TABLE abilists.users_noti;
+DROP TABLE abilists.users;
+DROP TABLE abilists.user_tech;
+DROP TABLE abilists.user_projects_tech;
+DROP TABLE abilists.user_projects;
+DROP TABLE abilists.user_task;
+DROP TABLE abilists.user_temp;
